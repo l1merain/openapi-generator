@@ -294,4 +294,12 @@ public interface CodegenConfig {
     void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
 
     Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings);
+
+    default boolean allNullable() {
+        Map<String, Object> additionalProperties = additionalProperties();
+        if (additionalProperties.containsKey("allNullable")) {
+            return additionalProperties.get("allNullable").equals(true);
+        }
+        return false;
+    }
 }

@@ -403,6 +403,17 @@ public class DefaultGenerator implements Generator {
             return;
         }
 
+        if (config.allNullable()) {
+            schemas.forEach((modelName, schema) -> {
+                schema.setRequired(null);
+                schema.getProperties().forEach((propName, prop) -> {
+                    if (prop instanceof Schema) {
+                        ((Schema) prop).setNullable(true);
+                    }
+                });
+            });
+        }
+
         String modelNames = GlobalSettings.getProperty("models");
         Set<String> modelsToGenerate = null;
         if (modelNames != null && !modelNames.isEmpty()) {
